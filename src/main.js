@@ -27,14 +27,16 @@ if (process.env.NODE_ENV === 'production') {
   const { mockXHR } = require('../mock')
   mockXHR()
 }
+import CategorySelect from '@/components/CategorySelect'
+import HintButton from '@/components/HintButton'
 
 // set ElementUI lang to EN
 // Vue.use(ElementUI, { locale })
 // 如果想要中文版 element-ui，按如下方式声明
 Vue.use(ElementUI)
-
 Vue.config.productionTip = false
-
+Vue.component(CategorySelect.name,CategorySelect)
+Vue.component(HintButton.name,HintButton)
 import api from '@/api'
 Vue.prototype.$API = api
 new Vue({
