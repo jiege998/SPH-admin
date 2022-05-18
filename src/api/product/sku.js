@@ -12,3 +12,10 @@ export const reqSale = (skuId)=>request({
 export const reqCancelSale = (skuId)=>request({
     url:`/admin/product/cancelSale/${skuId}`
 })
+//sku详情
+export const reqSkuById  = (skuId)=>request({
+    url:`admin/product/getSkuById/${skuId}`
+})
+export const reqDeleteSKu = (skuId)=>request({
+    url:`admin/product/deleteSku/${skuId}`
+})
