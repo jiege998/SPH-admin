@@ -38,7 +38,7 @@
               </li>
             </ul>
              <ul v-else>
-              <li v-for="item in listState.userRank" :key="item.no"></li>
+              <li v-for="item in listState.userRank" :key="item.no">
                 <span class="rindex">{{item.no}}</span>
                 <span>{{item.name}}</span>
                 <span class="rvalue">{{item.money}}</span>
