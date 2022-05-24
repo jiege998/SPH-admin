@@ -17,6 +17,9 @@ export default {
     card,
     sale,
     observe
+  },
+  mounted(){
+    this.$store.dispatch('getData')
   }
 }
 </script>

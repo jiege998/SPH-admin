@@ -30,41 +30,18 @@
           </el-col>
           <el-col :span="6">
             <h3>门店{{ title }}排名</h3>
-            <ul>
-              <li>
-                <span class="rindex">1</span>
-                <span>肯德基</span>
-                <span class="rvalue">123456</span>
+            <ul v-if="this.title === '销售额'">
+              <li v-for="item in listState.orderRank" :key="item.no">
+                <span class="rindex">{{item.no}}</span>
+                <span>{{item.name}}</span>
+                <span class="rvalue">{{item.money}}</span>
               </li>
-              <li>
-                <span class="rindex">2</span>
-                <span>肯德基</span>
-                <span class="rvalue">123456</span>
-              </li>
-              <li>
-                <span class="rindex">3</span>
-                <span>肯德基</span>
-                <span class="rvalue">123456</span>
-              </li>
-              <li>
-                <span style="margin:0px 4px">4</span>
-                <span>肯德基</span>
-                <span class="rvalue">123456</span>
-              </li>
-              <li>
-                <span style="margin:0px 4px">5</span>
-                <span>肯德基</span>
-                <span class="rvalue">123456</span>
-              </li>
-              <li>
-                <span style="margin:0px 4px">6</span>
-                <span>肯德基</span>
-                <span class="rvalue">123456</span>
-              </li>
-              <li>
-                <span style="margin:0px 4px">7</span>
-                <span>肯德基</span>
-                <span class="rvalue">123456</span>
+            </ul>
+             <ul v-else>
+              <li v-for="item in listState.userRank" :key="item.no"></li>
+                <span class="rindex">{{item.no}}</span>
+                <span>{{item.name}}</span>
+                <span class="rvalue">{{item.money}}</span>
               </li>
             </ul>
           </el-col>
@@ -77,6 +54,7 @@
 <script>
 import * as echarts from "echarts";
 import dayjs from 'dayjs'
+import {mapState} from 'vuex'
 export default {
   // 组件名称
   name: "",
@@ -101,6 +79,9 @@ export default {
         return "访问量";
       }
     },
+    ...mapState({
+      listState:state=>state.home.homeDate
+    })
   },
   // 侦听器
   watch: {
@@ -109,8 +90,33 @@ export default {
         title: {
           text: this.title,
         },
+        xAxis:{
+          data:this.title==='销售额'?this.listState.userFullYearAxis:this.listState.orderFullYearAxis
+        },
+        series:[{
+          name: this.title === '销售额'?"销售额":"访问量",
+          type: "bar",
+          barWidth: "40%",
+          data: this.title === '销售额'?this.listState.userFullYear:this.listState.orderFullYear,
+        }]
       });
     },
+    listState(){
+        this.myEcharts.setOption({
+        title: {
+          text: this.title,
+        },
+        xAxis:{
+          data:this.listState.userFullYearAxis
+        },
+        series:[{
+          name: "销售额",
+          type: "bar",
+          barWidth: "40%",
+          data: this.listState.userFullYear
+        }]
+      });
+    }
   },
   // 组件方法
   methods: {
@@ -156,18 +162,6 @@ export default {
         {
           type: "category",
           data: [
-            "1月",
-            "2月",
-            "3月",
-            "4月",
-            "5月",
-            "6月",
-            "7月",
-            "8月",
-            "9月",
-            "10月",
-            "11月",
-            "12月",
           ],
           axisTick: {
             alignWithLabel: true,
@@ -184,7 +178,7 @@ export default {
           name: "销售额",
           type: "bar",
           barWidth: "40%",
-          data: [10, 20, 30, 50, 24, 10, 18, 35, 34, 10, 36, 21],
+          data: [],
         },
       ],
     });
