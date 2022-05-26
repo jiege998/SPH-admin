@@ -19,7 +19,7 @@ export default {
     observe
   },
   mounted(){
-    this.$store.dispatch('getData')
+    this.$store.dispatch('home/getData')
   }
 }
 </script>
